@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>P.R.I.S.M. - Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <img src="assets/prism.png" alt="P.R.I.S.M. Logo" class="logo">
+            <h1>P.R.I.S.M.</h1>
+        </div>
+        <ul>
+            <li><a href="#dashboard" class="nav-link active"><i class="fas fa-th-large"></i><span>Dashboard</span></a></li>
+            <li><a href="#attendance" class="nav-link"><i class="fas fa-user-check"></i><span>Attendance</span></a></li>
+            <li><a href="#progress" class="nav-link"><i class="fas fa-chart-line"></i><span>Progress Report</span></a></li>
+            <li><a href="#activities" class="nav-link"><i class="fas fa-tasks"></i><span>Activities</span></a></li>
+            <li><a href="#help" class="nav-link"><i class="fas fa-question-circle"></i><span>Help Desk</span></a></li>
+        </ul>
+        <div class="theme-switcher">
+            <i class="fas fa-sun"></i>
+            <label class="switch">
+                <input type="checkbox" id="theme-toggle">
+                <span class="slider round"></span>
+            </label>
+            <i class="fas fa-moon"></i>
+        </div>
+    </nav>
+
+    <main class="content">
+        <section id="dashboard" class="page active">
+            <h2>Welcome to your Dashboard</h2>
+            <div class="dashboard-grid">
+                <div class="card reminders">
+                    <h3><i class="fas fa-bell"></i> Reminders</h3>
+                    <ul>
+                        <li>Physics Mid-term Exam on Sept 28th.</li>
+                        <li>Submit Calculus Assignment by tomorrow.</li>
+                        <li>Group project meeting at 4 PM today.</li>
+                    </ul>
+                </div>
+                <div class="card deadlines">
+                    <h3><i class="fas fa-hourglass-end"></i> Deadlines</h3>
+                    <ul>
+                        <li>Project Proposal: <span>Sept 22, 2025</span></li>
+                        <li>Lab Report #4: <span>Sept 25, 2025</span></li>
+                        <li>Essay Submission: <span>Oct 01, 2025</span></li>
+                    </ul>
+                </div>
+                <div class="card holidays">
+                    <h3><i class="fas fa-calendar-alt"></i> Upcoming Holidays</h3>
+                    <p>Gandhi Jayanti: Oct 2, 2025</p>
+                    <p>Dussehra: Oct 12, 2025</p>
+                </div>
+                <div class="card student-info">
+                    <h3><i class="fas fa-user"></i> Student Information</h3>
+                    <p><strong>Name:</strong> <span id="student-name"></span></p>
+                    <p><strong>Enrolment No:</strong> <span id="student-enrolment"></span></p>
+                    <p><strong>Section:</strong> <span id="student-section"></span></p>
+                    <p><strong>Batch:</strong> <span id="student-batch"></span></p>
+                    <p><strong>Email:</strong> <span id="student-email"></span></p>
+                </div>
+            </div>
+        </section>
+
+        <section id="attendance" class="page">
+            <h2>Attendance Tracker</h2>
+            <div class="attendance-container">
+                <div class="attendance-graph-card" id="attendance-report">
+                    <h3>Overall Attendance</h3>
+                    <div class="chart-container" style="height:300px;">
+                        <canvas id="attendanceChart"></canvas>
+                    </div>
+                    <div class="attendance-details">
+                        <p><strong>Days Present:</strong> 82</p>
+                        <p><strong>Days Absent:</strong> 18 (Medical Leave: 5, Unplanned: 13)</p>
+                        <p><strong>Total Percentage:</strong> <span id="attendance-percentage-text"></span></p>
+                    </div>
+                </div>
+                <div class="qr-scanner-card">
+                     <h3>Mark Today's Attendance</h3>
+                     <p>Scan the QR code displayed in your class to mark your presence instantly.</p>
+                     <button id="scan-qr-btn"><i class="fas fa-qrcode"></i> Scan QR Code</button>
+                </div>
+            </div>
+            <button class="pdf-btn" data-target="attendance-report"><i class="fas fa-file-pdf"></i> Save as PDF</button>
+        </section>
+
+        <section id="progress" class="page">
+            <h2>Academic Progress Report</h2>
+            <div id="progress-report-content">
+                <div class="card">
+                    <h3>Term Performance</h3>
+                    <div class="chart-container" style="height:350px;">
+                        <canvas id="progressChart"></canvas>
+                    </div>
+                    <div class="progress-details">
+                        <p><strong>Overall Percentage:</strong> 84%</p>
+                        <p><strong>Highest Marks (Data Structures):</strong> 95</p>
+                        <p><strong>Class Average (Data Structures):</strong> 78</p>
+                    </div>
+                </div>
+                <div class="card scope-improvement">
+                    <h3><i class="fas fa-rocket"></i> Scope for Improvement</h3>
+                    <p>Resources to help you excel in subjects where you can improve.</p>
+                    <div class="resource-table">
+                        <div class="table-header">
+                            <div>Subject</div>
+                            <div>Resource Type</div>
+                            <div>Link</div>
+                            <div>Status</div>
+                        </div>
+                        <div class="table-row">
+                            <div>Linear Algebra</div>
+                            <div>Lecture Notes</div>
+                            <div><a href="#">Chapter 4 - Vectors</a></div>
+                            <div><button class="status-btn">Mark as Done</button></div>
+                        </div>
+                        <div class="table-row">
+                            <div>Linear Algebra</div>
+                            <div>DPP</div>
+                            <div><a href="#">Practice Problems #3</a></div>
+                            <div><button class="status-btn">Mark as Done</button></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+             <button class="pdf-btn" data-target="progress-report-content"><i class="fas fa-file-pdf"></i> Save Report as PDF</button>
+        </section>
+
+        <section id="activities" class="page">
+            <h2>Goals & Activities</h2>
+            <div class="activities-grid">
+                <div class="goal-box" data-goal="long-term">
+                    <h3>Long Term Goals</h3>
+                    <ul><li>Intern at a top tech company. <i class="fas fa-edit"></i><i class="fas fa-trash"></i><i class="fas fa-check-circle"></i></li></ul>
+                </div>
+                <div class="goal-box" data-goal="short-term">
+                    <h3>Short Term Goals</h3>
+                    <ul><li>Complete DSA course. <i class="fas fa-edit"></i><i class="fas fa-trash"></i><i class="fas fa-check-circle"></i></li></ul>
+                </div>
+                <div class="goal-box" data-goal="weekly">
+                    <h3>Weekly Targets</h3>
+                    <ul><li>Finish 3 modules of Web Dev. <i class="fas fa-edit"></i><i class="fas fa-trash"></i><i class="fas fa-check-circle"></i></li></ul>
+                </div>
+                <div class="goal-box" data-goal="daily">
+                    <h3>Daily To-Do List</h3>
+                    <ul><li>Solve 5 LeetCode problems. <i class="fas fa-edit"></i><i class="fas fa-trash"></i><i class="fas fa-check-circle"></i></li></ul>
+                </div>
+            </div>
+            <div class="card task-completion-chart">
+                <h3>Task Completion Status</h3>
+                <div class="chart-container" style="height:250px; max-width: 250px; margin: auto;">
+                    <canvas id="tasksPieChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <section id="help" class="page">
+            <h2>Help Desk & Support</h2>
+            <div class="help-grid">
+                <div class="card">
+                    <h3>Submit a Query</h3>
+                    <p>Facing an issue? Fill out the form below, and our team will get back to you.</p>
+                    <iframe src="YOUR_GOOGLE_FORM_LINK_HERE" width="100%" height="400" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+                </div>
+                <div class="card">
+                    <h3>Quick Contacts</h3>
+                    <ul class="contact-list">
+                        <li><strong><i class="fas fa-desktop"></i> IT Department:</strong> <a href="mailto:it.support@university.edu">it.support@university.edu</a> | +91-123-456-7890</li>
+                        <li><strong><i class="fas fa-file-invoice-dollar"></i> Finance Office:</strong> <a href="mailto:finance@university.edu">finance@university.edu</a> | +91-123-456-7891</li>
+                        <li><strong><i class="fas fa-gavel"></i> Legal Affairs:</strong> <a href="mailto:legal@university.edu">legal@university.edu</a> | +91-123-456-7892</li>
+                        <li><strong><i class="fas fa-book-reader"></i> Academics Office:</strong> <a href="mailto:academics@university.edu">academics@university.edu</a> | +91-123-456-7893</li>
+                    </ul>
+                </div>
+            </div>
+            <p class="footer-note">Please note: All queries will be reviewed and resolved within 24 business hours.</p>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
